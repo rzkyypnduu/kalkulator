@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>235150701111021_Risky Pandu Widianto_percobaan10</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e0e3eb;
+      }
+
+      .calculator {
+        position: relative;
+        max-width: 300px;
+        width: 100%;
+        border-radius: 12px;
+        padding: 10px 20px 20px;
+        background: #fff;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      input {
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: right;
+        padding: 10px;
+        font-size: 40px;
+      }
+
+      .buttons {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      button {
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #eee;
+      }
+      button.equals {
+        grid-area: 2/4/6/5;
+      }
+
+      button:hover {
+        background-color: #ddd;
+        transform: scale(0.99);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <input style="background-color: black; color: white" type="text" id="screen" readonly />
+      <div class="buttons">
+        <button onclick="calculate('*')">x</button>
+        <button onclick="calculate('/')">÷</button>
+        <button onclick="calculate('+')">+</button>
+        <button onclick="calculate('-')">-</button>
+
+        <button onclick="appendToScreen('7')">7</button>
+        <button onclick="appendToScreen('8')">8</button>
+        <button onclick="appendToScreen('9')">9</button>
+
+        <button onclick="appendToScreen('4')">4</button>
+        <button onclick="appendToScreen('5')">5</button>
+        <button onclick="appendToScreen('6')">6</button>
+
+        <button onclick="appendToScreen('1')">1</button>
+        <button onclick="appendToScreen('2')">2</button>
+        <button onclick="appendToScreen('3')">3</button>
+        <button style="background-color: rgb(103, 103, 218); color: white" onclick="calculate('=')" class="equals">=</button>
+
+        <button onclick="appendToScreen('0')">0</button>
+        <button onclick="appendToScreen('.')">.</button>
+        <button style="background-color: rgb(255, 10, 2); color: rgb(255, 255, 255)" onclick="clearScreen()">AC</button>
+      </div>
+    </div>
+
+    <script>
+      const screen = document.getElementById("screen");
+      let firstOperand = "";
+      let secondOperand = "";
+      let operator = "";
+      let result = "";
+
+      function appendToScreen(value) {
+        screen.value += value;
+      }
+
+      function clearScreen() {
+        screen.value = "";
+        firstOperand = "";
+        secondOperand = "";
+        operator = "";
+        result = "";
+      }
+
+      function backspace() {
+        screen.value = screen.value.slice(0, -1);
+      }
+
+      function calculate(op) {
+        if (op === "+" || op === "-" || op === "*" || op === "/") {
+          firstOperand = parseFloat(screen.value);
+          operator = op;
+          screen.value = "";
+        } else if (op === "=") {
+          secondOperand = parseFloat(screen.value);
+
+          if (operator === "+") {
+            result = firstOperand + secondOperand;
+          } else if (operator === "-") {
+            result = firstOperand - secondOperand;
+          } else if (operator === "*") {
+            result = firstOperand * secondOperand;
+          } else if (operator === "/") {
+            if (secondOperand === 0) {
+              alert("Cannot divide by zero");
+              return;
+            }
+            result = firstOperand / secondOperand;
+          }
+          screen.value = result;
+          firstOperand = result;
+          secondOperand = null;
+          operator = null;
+        } else {
+          screen.value += op;
+        }
+      }
+    </script>
+  </body>
+</html>
